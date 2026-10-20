@@ -22,10 +22,17 @@ body{margin:0;background:#050505;color:#fff;font-family:'Geist','Helvetica Neue'
 a{color:inherit;text-decoration:none}a:hover{opacity:.7}
 .mono{font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;color:rgba(255,255,255,.72);text-transform:uppercase}
 .lead{margin:0;font-size:36px;line-height:1.04;font-weight:500;letter-spacing:-.3px}
-.hero{position:relative;overflow:hidden;padding:18px 16px;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;gap:120px}
-.dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.22) 1px,transparent 1.4px);background-size:14px 14px;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 62% 70%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 70% 60% at 62% 70%,#000 0%,transparent 75%)}
-.beam{position:absolute;left:-10%;right:-10%;top:62%;height:120px;background:linear-gradient(90deg,transparent,var(--light) 30%,var(--light2) 65%,transparent);filter:blur(46px);opacity:.7;transform:rotate(-7deg)}
-.beam-line{position:absolute;left:0;right:0;top:64%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.7) 40%,transparent);transform:rotate(-7deg)}
+.hero{position:relative;overflow:hidden;padding:18px 16px;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;gap:120px;background:radial-gradient(120% 90% at 50% 105%,var(--glow,rgba(232,116,59,.18)),transparent 70%),#050505}
+.dots{position:absolute;inset:0;opacity:var(--dots,1);background-image:radial-gradient(rgba(255,255,255,.22) 1px,transparent 1.4px);background-size:14px 14px;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 62% 70%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 70% 60% at 62% 70%,#000 0%,transparent 75%);animation:dots-drift 60s linear infinite}
+.orb{position:absolute;width:42vmax;height:42vmax;left:var(--orb-x,70%);top:var(--orb-y,55%);transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--orb,rgba(255,177,92,.5)),transparent 65%);filter:blur(30px);animation:orb-breathe 14s ease-in-out infinite alternate}
+.beam{position:absolute;left:-10%;right:-10%;top:62%;height:120px;background:linear-gradient(90deg,transparent,var(--light) 30%,var(--light2) 65%,transparent);filter:blur(46px);opacity:var(--beam-o,.7);transform:rotate(-7deg);animation:beam-drift 18s ease-in-out infinite alternate}
+.beam-line{position:absolute;left:0;right:0;top:64%;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.15) 30%,rgba(255,255,255,.85) 45%,rgba(255,255,255,.15) 60%,transparent 100%);background-size:220% 100%;opacity:var(--line-o,1);transform:rotate(-7deg);animation:line-shimmer 9s ease-in-out infinite}
+@keyframes beam-drift{0%{transform:rotate(-7deg) translate3d(-5%,0,0) scaleY(.85)}100%{transform:rotate(-5deg) translate3d(5%,-18px,0) scaleY(1.2)}}
+@keyframes line-shimmer{0%{background-position:100% 0}100%{background-position:-20% 0}}
+@keyframes dots-drift{to{background-position:140px 70px}}
+@keyframes orb-breathe{0%{opacity:.75;transform:translate(-50%,-50%) scale(.94)}100%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
+.hero,.beam,.orb,.dots{transition:background 3s ease,opacity 3s ease,left 3s ease,top 3s ease}
+@media (prefers-reduced-motion:reduce){.dots,.orb,.beam,.beam-line{animation:none}}
 .hero header{position:relative;display:flex;justify-content:space-between;gap:24px;align-items:flex-start}
 .indent{display:inline-block;width:96px}
 .intro{display:flex;flex-direction:column;gap:56px}
@@ -73,6 +80,7 @@ a{color:inherit;text-decoration:none}a:hover{opacity:.7}
 
 <section class="hero" id="top">
   <div class="dots" aria-hidden="true"></div>
+  <div class="orb" aria-hidden="true"></div>
   <div class="beam" aria-hidden="true"></div>
   <div class="beam-line" aria-hidden="true"></div>
   <header>
@@ -160,11 +168,11 @@ a{color:inherit;text-decoration:none}a:hover{opacity:.7}
       <span class="mono">(Get in touch)</span>
       <a href="mailto:wencesanz@gmail.com">wencesanz@gmail.com</a>
       <span class="stack"><a href="https://www.linkedin.com/in/wenceslaosanz/">LinkedIn</a><a href="https://www.instagram.com/stereochromo/">Instagram</a><a href="https://twitter.com/stereochromo">X</a><a href="https://open.spotify.com/user/stereochromo">Spotify</a><a href="https://unsplash.com/@stereochromo">Unsplash</a><a href="https://stereochromo.substack.com/">Newsletter</a></span>
-      <span>Alcorcón, Madrid<br>Available worldwide</span>
+      <span>Madrid<br>Available worldwide</span>
     </div>
     <div class="col">
       <span class="mono">(Now)</span>
-      <span>Curator, Paradís València<br>Awwwards Official Jury<br><a href="https://www.justadesignlist.com/">Just a Design List</a><br>aidj.work<br>Stereochromo newsletter, 1,300+ readers<br>Open to new roles &amp; advisory</span>
+      <span>Curator, Paradís València<br>Awwwards Official Jury<br><a href="https://www.justadesignlist.com/">Just a Design List ↗</a><br><a href="https://aidj.work/">aidj.work ↗</a><br>Stereochromo newsletter, 1,300+ readers<br>Open to new roles &amp; advisory</span>
     </div>
     <div class="col">
       <span class="mono">(Founded)</span>
@@ -212,6 +220,42 @@ document.querySelectorAll('.mark').forEach(function(m){
     m.classList.remove('draw'); void m.offsetWidth; m.classList.add('draw');
   });
 });
+</script>
+<script>
+/* Background tone follows the visitor's local time */
+(function(){
+  var K=[ // hour, beam colours, glow, orb, beam opacity, dots opacity, line opacity
+    [0, [58,79,168],[27,37,96],  [30,45,110,.22],[111,134,214,.30],.40,.45,.5],
+    [6, [196,92,70],[90,60,140], [120,60,80,.22], [255,140,90,.35], .60,.70,.7],
+    [9, [255,138,61],[255,197,107],[255,140,60,.34],[255,177,92,.55],.95,1,1],
+    [13,[255,170,80],[255,110,60],[255,160,90,.28],[255,200,140,.32],.85,1,1],
+    [17,[232,116,59],[59,111,232],[232,116,59,.18],[255,177,92,.35],.70,1,1],
+    [20,[217,70,107],[91,59,232], [150,60,140,.24],[200,90,160,.35],.60,.8,.8],
+    [23,[58,79,168],[27,37,96],  [30,45,110,.22],[111,134,214,.30],.40,.45,.5],
+    [24,[58,79,168],[27,37,96],  [30,45,110,.22],[111,134,214,.30],.40,.45,.5]
+  ];
+  function mix(a,b,t){return a+(b-a)*t}
+  function col(a,b,t){var c=a.map(function(v,i){return mix(v,b[i],t)});
+    return c.length>3?'rgba('+Math.round(c[0])+','+Math.round(c[1])+','+Math.round(c[2])+','+c[3].toFixed(2)+')':'rgb('+c.map(Math.round).join(',')+')'}
+  function apply(){
+    var d=new Date(), h=d.getHours()+d.getMinutes()/60, i=0;
+    while(K[i+1][0]<=h)i++;
+    var a=K[i], b=K[i+1], t=(h-a[0])/(b[0]-a[0]), r=document.documentElement.style;
+    r.setProperty('--light',col(a[1],b[1],t));
+    r.setProperty('--light2',col(a[2],b[2],t));
+    r.setProperty('--glow',col(a[3],b[3],t));
+    r.setProperty('--orb',col(a[4],b[4],t));
+    r.setProperty('--beam-o',mix(a[5],b[5],t).toFixed(2));
+    r.setProperty('--dots',mix(a[6],b[6],t).toFixed(2));
+    r.setProperty('--line-o',mix(a[7],b[7],t).toFixed(2));
+    // the glow travels across the sky: rises in the east in the morning, sets in the west in the evening
+    var day=Math.min(Math.max((h-6)/15,0),1), arc=Math.sin(day*Math.PI);
+    var night=(h<6||h>=21);
+    r.setProperty('--orb-x',(night?78:12+day*76).toFixed(1)+'%');
+    r.setProperty('--orb-y',(night?30:90-arc*40).toFixed(1)+'%');
+  }
+  apply(); setInterval(apply,5*60*1000);
+})();
 </script>
 </body>
 </html>
